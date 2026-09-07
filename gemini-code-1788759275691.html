@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tiếng Anh 12 - Grade 12 Curriculum Practice Test</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --border: #e2e8f0;
+      --correct-bg: #f0fdf4;
+      --correct-border: #16a34a;
+      --incorrect-bg: #fef2f2;
+      --incorrect-border: #dc2626;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #64748b;
+      margin-bottom: 24px;
+      font-size: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .question-card {
+      background: #fafafa;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: all 0.2s ease;
+    }
+
+    .question-number {
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .topic-tag {
+      display: inline-block;
+      background: #e0e7ff;
+      color: #3730a3;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .question-title {
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      padding: 12px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .option:hover {
+      background: #f1f5f9;
+    }
+
+    .option input {
+      margin-top: 4px;
+      margin-right: 12px;
+      cursor: pointer;
+    }
+
+    button {
+      width: 100%;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 18px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: var(--primary-hover);
+    }
+
+    #result-box {
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      display: none;
+    }
+
+    .score-display {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .explanation {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #334155;
+      display: none;
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 6px;
+      border-left: 4px solid var(--primary);
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Tiếng Anh 12 - Advanced Practice Test</h1>
+  <div class="subtitle">15 Tricky Questions Matched to Grade 12 Textbook Topics</div>
+
+  <form id="quiz-form">
+    <div class="form-group">
+      <label for="student-name">Full Name (Họ và Tên):</label>
+      <input type="text" id="student-name" placeholder="Enter your full name..." required>
+    </div>
+
+    <div id="questions-container"></div>
+
+    <button type="button" onclick="submitQuiz()">Submit Test</button>
+  </form>
+
+  <div id="result-box"></div>
+</div>
+
+<script>
+const quizData = [
+  {
+    topic: "Unit 1: Life Stories / World Leaders",
+    q: "Nelson Mandela's lifelong struggle against apartheid in South Africa inspired human rights movements across the globe. Recognized for his unwavering commitment to justice and equality, (1) ______.",
+    options: [
+      "the Nobel Peace Prize was awarded to him in 1993",
+      "he was awarded the Nobel Peace Prize in 1993",
+      "1993 marked the year he received the Nobel Peace Prize",
+      "awarding him the Nobel Peace Prize in 1993 was widely celebrated"
+    ],
+    answer: 1,
+    explain: "Dangling Modifier bẫy: 'Recognized for his unwavering commitment...' bổ nghĩa cho người được công nhận (Nelson Mandela $\rightarrow$ 'he'), không thể bổ nghĩa cho 'the Nobel Peace Prize', '1993' hay 'awarding'."
+  },
+  {
+    topic: "Unit 2: Urbanisation",
+    q: "Rapid urbanisation in developing regions has led to high population density and strained infrastructure. Struggling to cope with traffic congestion and housing shortages, (2) ______.",
+    options: [
+      "new public transportation systems are being constructed rapidly",
+      "city planners are implementing sustainable smart-city solutions",
+      "building affordable apartments has become the highest priority",
+      "urban development policies have been revised by local governments"
+    ],
+    answer: 1,
+    explain: "Dangling Modifier bẫy: Đối tượng 'Struggling to cope with...' (Đang vật lộn để giải quyết...) phải là người/cơ quan điều hành ('city planners'), không phải là 'systems', 'building', hay 'policies'."
+  },
+  {
+    topic: "Unit 3: The Green Movement",
+    q: "Single-use plastics pose a severe threat to marine life due to their non-biodegradable nature. Consumed by sea turtles and fish, (3) ______.",
+    options: [
+      "toxic synthetic chemicals gradually enter the oceanic food chain",
+      "environmentalists urge governments to ban plastic bags completely",
+      "severe health problems affect coastal human populations",
+      "recycling centers are processing millions of tons of waste daily"
+    ],
+    answer: 0,
+    explain: "Participle Modifier bẫy: 'Consumed by sea turtles and fish' (Bị động: Bị sinh vật biển ăn) phải chỉ chất hóa học/nhựa ('toxic synthetic chemicals'), không thể là 'environmentalists' hay 'recycling centers'."
+  },
+  {
+    topic: "Unit 4: The World of Work",
+    q: "Automation and artificial intelligence are rapidly reshaping modern job markets. Forced to adapt to changing workplace demands, (4) ______.",
+    options: [
+      "reskilling programs have been introduced by tech firms",
+      "many traditional administrative roles are disappearing quickly",
+      "employees are pursuing lifelong learning to stay competitive",
+      "digital literacy skills are required for almost every career"
+    ],
+    answer: 2,
+    explain: "Dangling Modifier bẫy: 'Forced to adapt...' (Bị buộc phải thích nghi) chỉ con người ('employees'), không chọn 'programs', 'roles', hay 'skills'."
+  },
+  {
+    topic: "Unit 5: Higher Education",
+    q: "Studying abroad offers students valuable opportunities to experience diverse academic environments and global cultures. Having completed their university degrees overseas, (5) ______.",
+    options: [
+      "attractive job offers from multinational companies are received",
+      "young graduates return home with broader global perspectives",
+      "career prospects are significantly enhanced for most students",
+      "higher starting salaries are often guaranteed in the job market"
+    ],
+    answer: 1,
+    explain: "Dangling Modifier bẫy: 'Having completed their university degrees overseas' (Đã hoàn thành bằng đại học ở nước ngoài) bổ nghĩa cho danh từ chỉ người ('young graduates')."
+  },
+  {
+    topic: "Unit 6: Cultural Diversity",
+    q: "Traditional ethnic festivals attract thousands of domestic and international tourists every year. Celebrated with vibrant music, traditional costumes, and folk dances, (6) ______.",
+    options: [
+      "local communities preserve their unique heritage through these events",
+      "these cultural events foster a strong sense of national identity",
+      "tourists enjoy learning about local customs and culinary traditions",
+      "preserving ancestral customs becomes much easier for young people"
+    ],
+    answer: 1,
+    explain: "Participle Modifier bẫy: 'Celebrated with vibrant music...' (Được tổ chức với âm nhạc sôi động...) bổ nghĩa cho 'these cultural events' (những lễ hội văn hóa này)."
+  },
+  {
+    topic: "Unit 7: Artificial Intelligence",
+    q: "Autonomous vehicle technology uses advanced sensor networks and machine learning to navigate roads. Engineered to detect obstacles in real time, (7) ______.",
+    options: [
+      "traffic accidents can be reduced significantly in busy cities",
+      "self-driving cars offer safer commuting options for urban residents",
+      "engineers have improved the precision of neural networks",
+      "road safety regulations are being updated by transportation authorities"
+    ],
+    answer: 1,
+    explain: "Participle Modifier bẫy: 'Engineered to detect obstacles...' (Được thiết kế để phát hiện vật cản...) bổ nghĩa cho phương tiện tự lái ('self-driving cars')."
+  },
+  {
+    topic: "Unit 8: Lifelong Learning",
+    q: "Online educational platforms provide flexible learning schedules for adults working full-time jobs. Designed to cater to self-directed learners, (8) ______.",
+    options: [
+      "working professionals can easily upgrade their technical skills",
+      "these digital courses offer interactive exercises and video lectures",
+      "e-learning enrollment rates have increased dramatically worldwide",
+      "educational institutions are replacing traditional classroom settings"
+    ],
+    answer: 1,
+    explain: "Participle Modifier bẫy: 'Designed to cater to...' (Được thiết kế để phục vụ...) bổ nghĩa cho khóa học ('these digital courses'), không thể là 'working professionals' hay 'enrollment rates'."
+  },
+  {
+    topic: "Unit 9: Choosing a Career",
+    q: "Vocational training courses focus on practical skills required for specific technical trades. Appreciated for providing direct pathways to employment, (9) ______.",
+    options: [
+      "many high school graduates opt for vocational colleges instead of universities",
+      "technical career programs are gaining popularity among young people",
+      "companies prefer hiring candidates with hands-on experience",
+      "job placement rates have risen noticeably in industrial sectors"
+    ],
+    answer: 1,
+    explain: "Participle Modifier bẫy: 'Appreciated for providing...' (Được đánh giá cao vì cung cấp...) bổ nghĩa cho chương trình đào tạo ('technical career programs')."
+  },
+  {
+    topic: "Unit 10: Endangered Species",
+    q: "Deforestation and illegal poaching have driven many rare animal species to the brink of extinction. Threatened by habitat destruction and human encroachment, (10) ______.",
+    options: [
+      "wildlife conservationists are building protected nature reserves",
+      "endangered populations continue to decline at alarming rates",
+      "stricter anti-poaching laws have been enacted by parliament",
+      "raising public awareness has become an urgent global mission"
+    ],
+    answer: 1,
+    explain: "Dangling Modifier bẫy: 'Threatened by habitat destruction...' (Bị đe dọa bởi việc hủy hoại môi trường sống...) bổ nghĩa cho quần thể loài có nguy cơ tuyệt chủng ('endangered populations')."
+  },
+  {
+    topic: "Grammar: Subject-Verb Agreement / Relative Clauses",
+    q: "The continuous development of renewable energy sources, which (11) _______ by many green advocates, has significantly reduced reliance on fossil fuels.",
+    options: [
+      "is strongly supported",
+      "are strongly supported",
+      "have been strongly supported",
+      "supporting strongly"
+    ],
+    answer: 0,
+    explain: "Hòa hợp S-V: Đại từ quan hệ 'which' thay thế cho danh từ số ít 'The continuous development', do đó động từ chia số ít 'is strongly supported'."
+  },
+  {
+    topic: "Grammar: Reduced Relative Clauses (Active vs Passive)",
+    q: "Students (12) _______ high scores on the national entrance examination are eligible for merit-based university scholarships.",
+    options: [
+      "achieved",
+      "achieving",
+      "which achieve",
+      "who achieved by"
+    ],
+    answer: 1,
+    explain: "Rút gọn mệnh đề quan hệ dạng chủ động: 'Students who achieve high scores...' $\rightarrow$ 'Students achieving high scores...'"
+  },
+  {
+    topic: "Grammar: Appositive Phrase (Cụm Đồng vị ngữ)",
+    q: "Gene editing technology, (13) _______, enables scientists to modify DNA sequences with unprecedented precision.",
+    options: [
+      "is a revolutionary tool in modern biotechnology",
+      "a revolutionary tool in modern biotechnology",
+      "which a revolutionary tool in modern biotechnology",
+      "a revolutionary tool in modern biotechnology, it"
+    ],
+    answer: 1,
+    explain: "Cấu trúc Cụm đồng vị ngữ (Appositive) đứng giữa 2 dấu phẩy chú giải cho Chủ ngữ. Không thêm động từ 'is' (chánh lỗi 2 động từ chính) hay đại từ thừa 'it'."
+  },
+  {
+    topic: "Grammar: Inversion / Emphasis Structure",
+    q: "Not until government regulations on carbon emissions became strictly enforced (14) _______ investing heavily in eco-friendly technology.",
+    options: [
+      "did major manufacturing companies begin",
+      "major manufacturing companies began",
+      "have major manufacturing companies begun",
+      "that major manufacturing companies began"
+    ],
+    answer: 0,
+    explain: "Đảo ngữ với 'Not until...': Not until + clause + Đảo ngữ (did + S + V-bare). Quá khứ đơn $\rightarrow$ 'did major manufacturing companies begin'."
+  },
+  {
+    topic: "Grammar: Verb Form in Main Clause",
+    q: "Multinational corporations that actively promote environmental sustainability and social responsibility (15) _______ higher customer loyalty in the modern market.",
+    options: [
+      "consistently earning",
+      "which consistently earn",
+      "consistently earn",
+      "to consistently earn"
+    ],
+    answer: 2,
+    explain: "Cấu trúc S - V - O chính: Chủ ngữ chính là 'Multinational corporations', mệnh đề 'that actively promote...' là mệnh đề phụ. Câu đang thiếu Động từ chính chia thì $\rightarrow$ chọn 'consistently earn'."
+  }
+];
+
+function renderQuiz() {
+  const container = document.getElementById('questions-container');
+  container.innerHTML = '';
+
+  quizData.forEach((data, index) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.id = `q-card-${index}`;
+
+    let optionsHtml = '';
+    data.options.forEach((opt, optIndex) => {
+      optionsHtml += `
+        <label class="option">
+          <input type="radio" name="question-${index}" value="${optIndex}">
+          <span><strong>${String.fromCharCode(65 + optIndex)}.</strong> ${opt}</span>
+        </label>
+      `;
+    });
+
+    card.innerHTML = `
+      <div class="question-number">Question ${index + 1}:</div>
+      <div class="topic-tag">${data.topic}</div>
+      <div class="question-title">${data.q}</div>
+      <div class="options">${optionsHtml}</div>
+      <div class="explanation" id="explain-${index}"><strong>Giải thích chi tiết:</strong> ${data.explain}</div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+function submitQuiz() {
+  const nameInput = document.getElementById('student-name').value.trim();
+  if (!nameInput) {
+    alert('Vui lòng nhập Họ và Tên trước khi nộp bài.');
+    return;
+  }
+
+  let score = 0;
+  quizData.forEach((data, index) => {
+    const selected = document.querySelector(`input[name="question-${index}"]:checked`);
+    const card = document.getElementById(`q-card-${index}`);
+    const explainBox = document.getElementById(`explain-${index}`);
+    
+    explainBox.style.display = 'block';
+
+    if (selected) {
+      const userAns = parseInt(selected.value);
+      if (userAns === data.answer) {
+        score++;
+        card.style.borderColor = 'var(--correct-border)';
+        card.style.background = 'var(--correct-bg)';
+      } else {
+        card.style.borderColor = 'var(--incorrect-border)';
+        card.style.background = 'var(--incorrect-bg)';
+      }
+    } else {
+      card.style.borderColor = 'var(--incorrect-border)';
+      card.style.background = 'var(--incorrect-bg)';
+    }
+  });
+
+  const percentage = Math.round((score / quizData.length) * 100);
+  const resultBox = document.getElementById('result-box');
+  resultBox.style.display = 'block';
+  resultBox.style.background = '#ffffff';
+  resultBox.style.border = '2px solid var(--primary)';
+  resultBox.innerHTML = `
+    <div class="score-display">Học sinh: ${nameInput}</div>
+    <div class="score-display">Kết quả: ${score} / ${quizData.length} (${percentage}%)</div>
+    <p style="margin: 0; color: #64748b;">Cuộn xuống để xem giải thích chi tiết cho từng câu hỏi.</p>
+  `;
+
+  resultBox.scrollIntoView({ behavior: 'smooth' });
+}
+
+renderQuiz();
+</script>
+
+</body>
+</html>
